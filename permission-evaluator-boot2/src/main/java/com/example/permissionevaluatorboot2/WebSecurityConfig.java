@@ -3,12 +3,16 @@ package com.example.permissionevaluatorboot2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.PermissionEvaluator;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
+
+import java.io.Serializable;
 
 @Configuration
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -33,4 +37,23 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.expressionHandler(handler);
     }
 
+//    @Bean(name = "webSecurity")
+    public com.example.permissionevaluatorboot2.WebSecurity webSecurity() {
+        return new com.example.permissionevaluatorboot2.WebSecurity();
+    }
+
+    @Bean
+    public PermissionEvaluator evaluator() {
+        return new PermissionEvaluator() {
+            @Override
+            public boolean hasPermission(Authentication authentication, Object o, Object o1) {
+                return false;
+            }
+
+            @Override
+            public boolean hasPermission(Authentication authentication, Serializable serializable, String s, Object o) {
+                return false;
+            }
+        };
+    }
 }

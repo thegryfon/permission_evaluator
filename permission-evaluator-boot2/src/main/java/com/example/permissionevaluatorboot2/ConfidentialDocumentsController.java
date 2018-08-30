@@ -42,4 +42,11 @@ public class ConfidentialDocumentsController {
         model.addAttribute("document", document);
         return "document";
     }
+
+    @PreAuthorize("@webSecurity.check(authentication,request)")
+    @GetMapping("/test")
+    String testCustom () {
+        return "output";
+
+    }
 }
